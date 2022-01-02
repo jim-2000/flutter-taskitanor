@@ -35,7 +35,7 @@ class TaskTile extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 12,
+                  height: 10,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,11 +55,11 @@ class TaskTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 10),
                 Text(
-                  task?.note ?? "",
+                  task?.note.toString() ?? "",
                   style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 15, color: Colors.grey[100]),
+                    textStyle: TextStyle(fontSize: 14, color: Colors.grey[100]),
                   ),
                 ),
               ],

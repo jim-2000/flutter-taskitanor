@@ -1,11 +1,14 @@
 // ignore: file_names
 // ignore: file_names
+// ignore: file_names
 // ignore_for_file: avoid_print
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
+import 'package:task/models/task.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -15,8 +18,8 @@ class NotifyHelper {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin(); //
 
-  initializeNotification() async {
-    tz.initializeTimeZones();
+  Future<void> initializeNotification() async {
+    configureLoalTimezone();
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestSoundPermission: false,
@@ -40,16 +43,7 @@ class NotifyHelper {
   }
 
 //
-  void requestIOSPermissions() {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
-  }
+
   //
 
   Future onDidReceiveLocalNotification(
@@ -102,13 +96,17 @@ class NotifyHelper {
 
   //
 
-  scheduledNotification(
-      {required int sec, required String title, required String body}) async {
+  scheduledNotification({
+    required int hr,
+    required int mnt,
+    required Task task,
+  }) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      sec,
-      title,
-      body,
-      tz.TZDateTime.now(tz.local).add(Duration(seconds: sec)),
+      task.id!.toInt(),
+      task.title,
+      task.note,
+      _convertTime(hr, mnt),
+      // tz.TZDateTime.now(tz.local).add(Duration(hours: hr, minutes: mnt)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'your channel id',
@@ -119,6 +117,32 @@ class NotifyHelper {
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+  //
+  tz.TZDateTime _convertTime(int hr, int mnt) {
+    //
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime sheduleDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hr,
+      mnt,
+    );
+    if (sheduleDate.isBefore(now)) {
+      //
+      sheduleDate = sheduleDate.add(const Duration(days: 1));
+    }
+    return sheduleDate;
+  }
+
+  Future<void> configureLoalTimezone() async {
+    tz.initializeTimeZones();
+    final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 }

@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     // notifyHelper = NotifyHelper();
     NotifyHelper().initializeNotification();
@@ -95,9 +96,17 @@ class _HomePageState extends State<HomePage> {
           itemCount: _taskController.taskLists.length,
           itemBuilder: (context, index) {
             //
-
             Task task = _taskController.taskLists[index];
+
             if (task.repeat == 'Daily') {
+              DateTime date = DateFormat.jm().parse(task.startTime.toString());
+              final myTime = DateFormat("HH:mm").format(date);
+              NotifyHelper().scheduledNotification(
+                hr: int.parse(myTime.toString().split(":")[0]),
+                mnt: int.parse(myTime.toString().split(":")[1]),
+                task: task,
+              );
+
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -308,11 +317,11 @@ _appBar() {
           body: Get.isDarkMode ? "Active light Theme" : "Activated Dark Theme",
         );
 
-        NotifyHelper().scheduledNotification(
-          body: "This is Local notification",
-          sec: 2,
-          title: "Come in my bleed",
-        );
+        // NotifyHelper().scheduledNotification(
+        //   body: "This is Local notification",
+        //   sec: 2,
+        //   title: "Come in my bleed",
+        // );
       },
     ),
     actions: [
