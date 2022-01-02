@@ -305,6 +305,15 @@ class _HomePageState extends State<HomePage> {
 
 _appBar() {
   return AppBar(
+    title: Text(
+      "T-A-S-KINATOR",
+      style: TextStyle(
+        color: Get.isDarkMode ? Colors.orange : Colors.black,
+        letterSpacing: 2.3,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    centerTitle: true,
     leading: GestureDetector(
       child: Get.isDarkMode
           ? Icon(
