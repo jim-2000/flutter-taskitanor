@@ -1,6 +1,7 @@
 // ignore: file_names
 // ignore: file_names
 // ignore: file_names
+// ignore: file_names
 // ignore_for_file: avoid_print
 
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:task/models/task.dart';
+import 'package:task/screens/notifiedPage.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -29,7 +31,7 @@ class NotifyHelper {
     );
 
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        const AndroidInitializationSettings('app_icon');
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -58,10 +60,7 @@ class NotifyHelper {
     } else {
       print("Notification Done");
     }
-    Get.to(() => Container(
-          color: Colors.teal,
-          child: Center(child: Text("This JIM")),
-        ));
+    Get.to(() => NotifiedScreen(label: payload));
   }
 
   //
@@ -118,6 +117,7 @@ class NotifyHelper {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
+      payload: "${task.title}|" + "{$task.note}|",
     );
   }
 

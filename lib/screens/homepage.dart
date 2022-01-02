@@ -126,6 +126,14 @@ class _HomePageState extends State<HomePage> {
               );
             }
             if (task.date == DateFormat.yMd().format(_selectedDate)) {
+              // when today and task day matched then show that days task and get a notifications
+              // DateTime date = DateFormat.jm().parse(task.startTime.toString());
+              // final myTime = DateFormat("HH:mm").format(date);
+              // NotifyHelper().scheduledNotification(
+              //   hr: int.parse(myTime.toString().split(":")[0]),
+              //   mnt: int.parse(myTime.toString().split(":")[1]),
+              //   task: task,
+              // );
               //
               return AnimationConfiguration.staggeredList(
                 position: index,
