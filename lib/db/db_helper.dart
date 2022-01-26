@@ -41,7 +41,6 @@ class DBHelper {
 
   //
   static Future<List<Map<String, dynamic>>> query() async {
-    print("query function called");
     return await _db!.query(_tablename);
   }
 

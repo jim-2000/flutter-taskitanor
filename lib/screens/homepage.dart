@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:task/controllers/task_controller.dart';
@@ -99,6 +100,7 @@ class _HomePageState extends State<HomePage> {
             Task task = _taskController.taskLists[index];
 
             if (task.repeat == 'Daily') {
+              print(task);
               DateTime date = DateFormat.jm().parse(task.startTime.toString());
               final myTime = DateFormat("HH:mm").format(date);
               NotifyHelper().scheduledNotification(
@@ -342,11 +344,14 @@ _appBar() {
       },
     ),
     actions: [
-      CircleAvatar(
-        backgroundImage: AssetImage("assets/images/user.png"),
+      Center(
+        child: const CircleAvatar(
+          backgroundImage: AssetImage("assets/images/user.png"),
+          radius: 14,
+        ),
       ),
       SizedBox(
-        width: 20,
+        width: 10,
       ),
     ],
   );

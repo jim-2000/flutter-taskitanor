@@ -26,15 +26,16 @@ class NotifiedScreen extends StatelessWidget {
             color: Get.isDarkMode ? Colors.black : Colors.grey.shade600,
           ),
           child: Center(
-              child: Text(
-            this.label!.toString().split("|")[1],
-            style: TextStyle(
-              fontSize: 16,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
-              fontWeight: FontWeight.w300,
-              letterSpacing: 3,
+            child: Text(
+              this.label!.toString().split("|")[1],
+              style: TextStyle(
+                fontSize: 16,
+                color: Get.isDarkMode ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w300,
+                letterSpacing: 3,
+              ),
             ),
-          )),
+          ),
         ),
       ),
     );
