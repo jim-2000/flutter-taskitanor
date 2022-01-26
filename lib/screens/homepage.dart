@@ -99,8 +99,9 @@ class _HomePageState extends State<HomePage> {
             //
             Task task = _taskController.taskLists[index];
 
-            if (task.repeat == 'Daily') {
-              print(task);
+            if (task.repeat == 'Daily' &&
+                // ignore: iterable_contains_unrelated_type
+                _taskController.taskLists.contains(task.id)) {
               DateTime date = DateFormat.jm().parse(task.startTime.toString());
               final myTime = DateFormat("HH:mm").format(date);
               NotifyHelper().scheduledNotification(
@@ -127,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }
-            if (task.date == DateFormat.yMd().format(_selectedDate)) {
+            if (task.date == DateFormat.yMd().format(_selectedDate) &&
+                _taskController.taskLists.contains(task.id)) {
               // when today and task day matched then show that days task and get a notifications
               // DateTime date = DateFormat.jm().parse(task.startTime.toString());
               // final myTime = DateFormat("HH:mm").format(date);
