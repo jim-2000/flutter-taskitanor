@@ -17,3 +17,12 @@ class ThemeService {
     _saveThemetoBox(!_loadThemeFromBox());
   }
 }
+
+class IntroSeervice {
+  final _box = GetStorage();
+  final _keyL = "is_view";
+  final _firstTime = true;
+  _saveData(bool _firstTime) => _box.write(_keyL, _firstTime);
+  bool loadData() => _box.read(_keyL) ?? true;
+  void afterLonch() => _box.write(_keyL, false);
+}

@@ -8,6 +8,7 @@ import 'package:task/controllers/task_controller.dart';
 import 'package:task/db/db_helper.dart';
 import 'package:task/models/task.dart';
 import 'package:task/screens/addTask.dart';
+import 'package:task/screens/developer.dart';
 import 'package:task/services/notificationServices.dart';
 import 'package:task/services/themeServices.dart';
 import 'package:task/style/theme.dart';
@@ -33,13 +34,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // notifyHelper = NotifyHelper();
     NotifyHelper().initializeNotification();
+    IntroSeervice().afterLonch();
   }
 
   //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(context),
       body: Column(
         children: [
           _addTaskBar(context),
@@ -303,7 +305,7 @@ class _HomePageState extends State<HomePage> {
 
 //
 
-_appBar() {
+_appBar(BuildContext context) {
   return AppBar(
     title: Text(
       "T-A-S-KINATOR",
@@ -314,39 +316,51 @@ _appBar() {
       ),
     ),
     centerTitle: true,
-    leading: GestureDetector(
-      child: Get.isDarkMode
-          ? Icon(
-              Icons.wb_sunny_outlined,
-              size: 20,
-              color: Colors.white,
-            )
-          : Icon(
-              Icons.nightlight_round,
-              size: 20,
-              color: Colors.black,
-            ),
-      onTap: () {
-        ThemeService().swithTheme();
-        NotifyHelper().displayNotification(
-          id: 45456,
-          title: " Theme Changed",
-          body: Get.isDarkMode ? "Active light Theme" : "Activated Dark Theme",
-        );
-
-        // NotifyHelper().scheduledNotification(
-        //   body: "This is Local notification",
-        //   sec: 2,
-        //   title: "Come in my bleed",
-        // );
-      },
+    leading: Icon(
+      Icons.wb_sunny_outlined,
+      size: 20,
+      color: Colors.white,
     ),
+    // leading: GestureDetector(
+    //   child: Get.isDarkMode
+    //       ? Icon(
+    //           Icons.wb_sunny_outlined,
+    //           size: 20,
+    //           color: Colors.white,
+    //         )
+    //       : Icon(
+    //           Icons.nightlight_round,
+    //           size: 20,
+    //           color: Colors.black,
+    //         ),
+    //   onTap: () {
+    //     ThemeService().swithTheme();
+    //     NotifyHelper().displayNotification(
+    //       id: 45456,
+    //       title: " Theme Changed",
+    //       body: Get.isDarkMode ? "Active light Theme" : "Activated Dark Theme",
+    //     );
+    //   },
+    // ),
     actions: [
-      CircleAvatar(
-        backgroundImage: AssetImage("assets/images/user.png"),
+      InkWell(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Developer()));
+        },
+        child: Center(
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: CircleAvatar(
+              radius: 14,
+              backgroundImage: NetworkImage(
+                  'https://avatars.githubusercontent.com/u/64397792?s=400&u=b893043c1c3b0a6ef368d9c9e4ee71dda86159c6&v=4'),
+            ),
+          ),
+        ),
       ),
       SizedBox(
-        width: 20,
+        width: 10,
       ),
     ],
   );

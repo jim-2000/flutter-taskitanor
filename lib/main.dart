@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:task/db/db_helper.dart';
 import 'package:task/screens/homepage.dart';
+import 'package:task/screens/onbording/onbording.dart';
 import 'package:task/services/themeServices.dart';
 import 'package:task/style/theme.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -25,12 +25,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Task',
-      theme: ThemeService().theme,
-      // darkTheme: MyTheme.dark(),
+      // theme: ThemeService().theme,
+      theme: MyTheme.dark(),
       debugShowCheckedModeBanner: false,
 
       //
-      home: const HomePage(),
+      home: IntroSeervice().loadData()
+          ? const OnbordingScreens()
+          : const HomePage(),
     );
   }
 }
